@@ -1,0 +1,151 @@
+#include "dronecontrol.h"
+#include <curl/curl.h>
+#include <stdio.h>
+#include <curl/curl.h>
+
+namespace drone{
+	void Drone::http_exe( std::string url ){
+		CURL *curl;
+		CURLcode res;
+		curl = curl_easy_init();
+		if(curl) {
+			curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+			res = curl_easy_perform(curl);
+			curl_easy_cleanup(curl);
+		}
+		std::cout << std::endl;
+	}
+
+	std::string Drone::move_param_maker( int speed, int steps){
+		std::string param = "";
+		if( speed == -1 && steps == -1){
+			return param;
+		}else if(speed == -1){
+			param += "?steps=" + std::to_string(steps);
+			return param;
+		}else if(steps == -1){
+			param += "?speed=" + std::to_string(speed);
+			return param;
+		}else{
+			param += "?speed=" + std::to_string(speed) + "&steps=" + std::to_string(steps);
+			return param;
+		}
+	}
+	
+	std::string Drone::drive_param_maker( int tilt, int forward, int turn, int up, int steps ){
+		std::string param = "";
+		param += "?tilt=" + std::to_string(tilt);
+		param += "&forward=" + std::to_string(forward);
+		param += "&turn=" + std::to_string(turn);
+		param += "&up=" + std::to_string(up);
+		if(steps != -1){
+			param += "&steps=" + std::to_string(steps);
+		}
+		return param;
+	}
+
+	Drone::Drone(std::string base_url, int port){
+		this->base_url_ = base_url;
+		this->port_ = port;
+	}
+
+	void Drone::connect(){
+		std::string api = "/drone/connect";
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::disconnect(){
+		std::string api = "/drone/disconnect";
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::takeoff(){
+		std::string api = "/drone/control/takeoff";
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::land(){
+		std::string api = "/drone/control/land";
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::forward(int speed, int steps){
+		std::string api = "/drone/control/forward";
+		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::backward(int speed, int steps){
+		std::string api = "/drone/control/backward";
+		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::up(int speed, int steps){
+		std::string api = "/drone/control/up";
+		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::down(int speed, int steps){
+		std::string api = "/drone/control/down";
+		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::tiltright(int speed, int steps){
+		std::string api = "/drone/control/tiltright";
+		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::tiltleft(int speed, int steps){
+		std::string api = "/drone/control/tiltleft";
+		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::turnright(int speed, int steps){
+		std::string api = "/drone/control/turnright";
+		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::turnleft(int speed, int steps){
+		std::string api = "/drone/control/turnleft";
+		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::drive(int tilt, int forward, int turn, int up, int steps){
+		std::string api = "/drone/control/drive";
+		std::string param = drive_param_maker(tilt, forward, turn, up, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+}
