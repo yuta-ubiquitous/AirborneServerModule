@@ -1,3 +1,5 @@
 sample
 .vscode/
 .DS_Store
+*.o
+sample
