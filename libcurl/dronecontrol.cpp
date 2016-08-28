@@ -1,7 +1,6 @@
 #include "dronecontrol.h"
 #include <curl/curl.h>
-#include <stdio.h>
-#include <curl/curl.h>
+#include <iostream>
 
 namespace drone{
 	void Drone::http_exe( std::string url ){
