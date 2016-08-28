@@ -7,7 +7,8 @@ namespace drone{
 			std::string base_url_;
 			int port_;
 			std::string http_exe( std::string url );
-			std::string param_maker( int speed, int steps);
+			std::string move_param_maker( int speed, int steps);
+			std::string drive_param_maker( int tilt, int forward, int turn, int up, int steps );
 		public:
 			Drone(std::string base_url, int port);
 			void connect();
@@ -22,5 +23,6 @@ namespace drone{
 			void tiltleft(int speed, int steps);
 			void turnright(int speed, int steps);
 			void turnleft(int speed, int steps);
+			void drive(int tilt, int forward, int turn, int up, int steps);
 	};
 }

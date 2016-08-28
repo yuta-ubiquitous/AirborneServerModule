@@ -28,6 +28,18 @@ namespace drone{
 			return param;
 		}
 	}
+	
+	std::string Drone::drive_param_maker( int tilt, int forward, int turn, int up, int steps ){
+		std::string param = "";
+		param += "?tilt=" + std::to_string(tilt);
+		param += "&forward=" + std::to_string(forward);
+		param += "&turn=" + std::to_string(turn);
+		param += "&up=" + std::to_string(up);
+		if(steps != -1){
+			param += "&steps=" + std::to_string(steps);
+		}
+		return param;
+	}
 
 	Drone::Drone(std::string base_url, int port){
 		this->base_url_ = base_url;
@@ -121,6 +133,14 @@ namespace drone{
 	void Drone::turnleft(int speed, int steps){
 		std::string api = "/drone/control/turnleft";
 		std::string param = move_param_maker(speed, steps);
+		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
+		std::cout << url << std::endl;
+		http_exe(url);
+	}
+
+	void Drone::drive(int tilt, int forward, int turn, int up, int steps){
+		std::string api = "/drone/control/drive";
+		std::string param = drive_param_maker(tilt, forward, turn, up, steps);
 		std::string url = this->base_url_ + ":" + std::to_string( this->port_ ) + api + param;
 		std::cout << url << std::endl;
 		http_exe(url);

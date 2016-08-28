@@ -36,6 +36,9 @@ int main(){
 	drone->turnleft(-1,-1);
 	sleep(sleep_second);
 	
+	drone->drive(0,0,90,0,-1);
+	sleep(sleep_second);
+	
 	drone->land();
 	drone->disconnect();
 	return 0;
